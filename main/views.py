@@ -1,7 +1,10 @@
 from django.http import JsonResponse
 from .models import District, Region, Sector, State, Municipality
+from django.shortcuts import redirect
 
 
+def home(request):
+    return redirect('admin/')
 
 def get_filtered_districts(request, region_id):
     districts = District.objects.filter(region_id=region_id).order_by('name')
