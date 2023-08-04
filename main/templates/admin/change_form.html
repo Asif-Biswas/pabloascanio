@@ -1,0 +1,92 @@
+{% extends 'admin/change_form.html' %}
+{% load static %}
+
+{% block admin_change_form_document_ready %}
+{{ block.super }}
+<script>
+    const window_url = window.location.href;
+    if (window_url.includes('/church/')) {
+        const id_region = document.getElementById('id_region');
+        const id_district = document.getElementById('id_district');
+        const id_sector = document.getElementById('id_sector');
+
+        id_region.addEventListener('change', ()=> {
+            if (document.getElementById('id_region').value === '') {
+                return;
+            }
+            const url = `/get-filtered-districts/${id_region.value}/`;
+            fetch(url)
+            .then((response) => {
+                return response.json();
+            })
+            .then((data) => {
+                id_district.innerHTML = '';
+                const first_option = document.createElement('option');
+                first_option.value = '';
+                first_option.text = '---------';
+                id_district.appendChild(first_option);
+                for (let i = 0; i < data.length; i++) {
+                    const option = document.createElement('option');
+                    option.value = data[i].id;
+                    option.text = data[i].name;
+                    id_district.appendChild(option);
+                }
+            })
+        })
+
+        id_district.addEventListener('change', ()=> {
+            if (document.getElementById('id_district').value === '') {
+                return;
+            }
+            const url = `/get-filtered-sectors/${document.getElementById('id_district').value}/`;
+            fetch(url)
+            .then((response) => {
+                return response.json();
+            })
+            .then((data) => {
+                id_sector.innerHTML = '';
+                const first_option = document.createElement('option');
+                first_option.value = '';
+                first_option.text = '---------';
+                id_sector.appendChild(first_option);
+                for (let i = 0; i < data.length; i++) {
+                    const option = document.createElement('option');
+                    option.value = data[i].id;
+                    option.text = data[i].name;
+                    id_sector.appendChild(option);
+                }
+            })
+        })
+
+
+        const id_state = document.getElementById('id_state');
+        const id_municipality = document.getElementById('id_municipality');
+        id_state.addEventListener('change', ()=> {
+            if (document.getElementById('id_state').value === '') {
+                return;
+            }
+            const url = `/get-filtered-municipalities/${id_state.value}/`;
+            fetch(url)
+            .then((response) => {
+                return response.json();
+            })
+            .then((data) => {
+                id_municipality.innerHTML = '';
+                const first_option = document.createElement('option');
+                first_option.value = '';
+                first_option.text = '---------';
+                id_municipality.appendChild(first_option);
+                for (let i = 0; i < data.length; i++) {
+                    const option = document.createElement('option');
+                    option.value = data[i].id;
+                    option.text = data[i].name;
+                    id_municipality.appendChild(option);
+                }
+            })
+        })
+
+    }
+    
+
+</script>
+{% endblock %}

@@ -1,7 +1,6 @@
 from django.contrib import admin
 from .models import Role, Charge, Region, District, Sector, State, Municipality, Church, Account
 
-
 admin.site.register(Role)
 admin.site.register(Charge)
 admin.site.register(Region)
