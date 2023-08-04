@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Role, Charge, Region, District, Sector, State, Municipality, Church
+from .models import Role, Charge, Region, District, Sector, State, Municipality, Church, Account
 
 
 admin.site.register(Role)
@@ -10,3 +10,4 @@ admin.site.register(Sector)
 admin.site.register(State)
 admin.site.register(Municipality)
 admin.site.register(Church)
+admin.site.register(Account)
