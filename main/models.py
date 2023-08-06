@@ -102,11 +102,28 @@ class Church(models.Model):
         return self.name
     
     def save(self, *args, **kwargs):
-        self.total_members = self.how_many_members + self.how_many_children
+        total_members = self.how_many_members + self.how_many_children
+        self.total_members = total_members
         month = self.start_date.strftime("%m")
         year = self.start_date.strftime("%Y")
         id_ = Church.objects.count() + 1
         self.code = f"M{month}A{year}C{id_:04d}"
+
+        if self.total_members > 0 and self.total_members < 25:
+            self.category = 'E'
+        elif self.total_members > 26 and self.total_members < 75:
+            self.category = 'D'
+        elif self.total_members > 76 and self.total_members < 125:
+            self.category = 'C'
+        elif self.total_members > 126 and self.total_members < 250:
+            self.category = 'B'
+        elif self.total_members > 251 and self.total_members < 500:
+            self.category = 'B1'
+        elif self.total_members > 501 and self.total_members < 600:
+            self.category = 'A'
+        elif self.total_members > 601:
+            self.category = 'A1'
+
         super().save(*args, **kwargs)
 
 
